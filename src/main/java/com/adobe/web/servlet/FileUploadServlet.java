@@ -48,9 +48,9 @@ public class FileUploadServlet extends HttpServlet {
                 if(iterator.hasNext()) {
                     FileItemStream item = iterator.next();
                     if(validateFile(item)) {
-                        //InputStream stream = item.openStream();
-                        //uploadDocumentStream(getBytes(stream), item.getName());
-                        //downloadDocumentStream(request, item.getName());
+                        InputStream stream = item.openStream();
+                        uploadDocumentStream(getBytes(stream), item.getName());
+                        downloadDocumentStream(request, item.getName());
                         request.setAttribute("message", "File Uploaded Successfully"); 
                         request.setAttribute("filePath", ServiceConstants.CLOUD_STORAGE_PATH+item.getName());
                     }
