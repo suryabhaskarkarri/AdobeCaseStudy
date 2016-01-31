@@ -1,17 +1,6 @@
 package com.adobe.web.bean;
 
-import java.io.Serializable;
-
-import com.adobe.web.bean.GeocodingResponse.Results;
-import com.adobe.web.bean.GeocodingResponse.Results.Address_Components;
-import com.adobe.web.bean.GeocodingResponse.Results.Geometry;
-import com.adobe.web.bean.GeocodingResponse.Results.Geometry.Location;
-import com.adobe.web.bean.GeocodingResponse.Results.Geometry.Viewport;
-import com.adobe.web.bean.GeocodingResponse.Results.Geometry.Viewport.Northeast;
-import com.adobe.web.bean.GeocodingResponse.Results.Geometry.Viewport.Southwest;
-import com.google.maps.model.GeocodingResult;
-
-public class GoogleGeocodingResponse 
+public class GeocodingResponse
 {
     private Results[] results;
 
