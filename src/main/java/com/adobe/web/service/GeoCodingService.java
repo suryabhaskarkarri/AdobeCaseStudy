@@ -18,7 +18,7 @@ public class GeocodingService {
     private static volatile int requestCount = 0;
     
     public synchronized GoogleGeocodingResponse getGeoAddress(String address) throws IOException, InterruptedException, SocketTimeoutException
-    {
+    { 
         // Pausing the service call for every 10 api calls.
         if(requestCount > 9) {
             Thread.sleep(ServiceConstants.GEOCODING_REQUEST_PAUSE_TIME);
