@@ -14,9 +14,6 @@
             <div id="form">
 	            <h3 id="text"> Choose Excel File (xlsx) to Upload </h3>
 	            <form action="uploadFile" method="post" enctype="multipart/form-data">
-	               <!--  <label  class="custom-file-input">
-	                   <input type="file" id="fileInput"/>
-	                </label><label id="filename">No file selected</label><br> -->
 	                 <input type="file" name="file"/><br>
 	                <input type="submit" class="button" value="upload" />
 	            </form>

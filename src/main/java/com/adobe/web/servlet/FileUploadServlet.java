@@ -29,7 +29,6 @@ import com.adobe.web.handler.FileUploadDownloadHandler;
 
 public class FileUploadServlet extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
     private FileUploadDownloadHandler handler = null;
     private List<String> errorMessages = null;
     
@@ -56,7 +55,7 @@ public class FileUploadServlet extends HttpServlet {
                     }
                 }
                 else 
-                    errorMessages.add(ErrorMessages.INVALID_CONTENT_TYPE);
+                    errorMessages.add(ErrorMessages.INVALID_FILE);
             }
             catch(IOException e) {
                 System.out.println(e.getMessage());
@@ -71,16 +70,16 @@ public class FileUploadServlet extends HttpServlet {
             catch(Exception e) {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
-                errorMessages.add(ErrorMessages.FILE_UPLOAD_EXCEPTION_MSG);
+                //Do nothing. Already handled the error messages in the handler
             }
-            
         }
         else 
-            errorMessages.add(ErrorMessages.INVALID_CONTENT_TYPE);
+            errorMessages.add(ErrorMessages.INVALID_FILE);
         
         request.setAttribute("errorMessages", errorMessages);
         request.getRequestDispatcher("/fileupload.jsp").forward(request, response);
     }
+    
     
     public static byte[] getBytes(InputStream is) throws IOException {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
@@ -96,7 +95,7 @@ public class FileUploadServlet extends HttpServlet {
     private boolean validateFile(FileItemStream item) 
     {
         if(item.getName().indexOf(ServiceConstants.EXCEL_EXTENSION) < 0) {
-            errorMessages.add(ErrorMessages.INVALID_EXTENSION);
+            errorMessages.add(ErrorMessages.INVALID_FILE);
             return false;
         }
         if(!item.getContentType().equals(ServiceConstants.CONTENT_TYPE)) {
@@ -107,23 +106,27 @@ public class FileUploadServlet extends HttpServlet {
     }
     
     
-    
-    public void uploadDocumentStream(byte[] content, String fileName) throws URISyntaxException, IOException, GeneralSecurityException, InterruptedException
+    public void uploadDocumentStream(byte[] content, String fileName) throws Exception
     {
-        Map<String, String> serviceErrorCodesMap = new HashMap<String, String>();
-        handler.modifyAndUploadExcelToCloud(content, fileName, serviceErrorCodesMap);
-        if(serviceErrorCodesMap.size() > 0) {
-            for (Map.Entry<String,String> entry : serviceErrorCodesMap.entrySet()) {
+        Map<String, String> uploadErrorCodesMap = new HashMap<String, String>();
+        handler.modifyAndUploadExcelToCloud(content, fileName, uploadErrorCodesMap);
+        addServiceCodeErrorMessages(uploadErrorCodesMap);
+    }
+    
+    public void downloadDocumentStream(HttpServletRequest request, String fileName) throws Exception
+    {
+        Map<String, String> downloadErrorCodesMap = new HashMap<String, String>();
+        List<Address> addressList = handler.downloadExcelFromCloud(fileName, downloadErrorCodesMap);
+        addServiceCodeErrorMessages(downloadErrorCodesMap);
+        request.setAttribute("addressList", addressList);
+    }
+    
+    public void addServiceCodeErrorMessages(Map<String, String> errorCodesMap) {
+        if(errorCodesMap.size() > 0) {
+            for (Map.Entry<String,String> entry : errorCodesMap.entrySet()) {
                 errorMessages.add(entry.getKey()+" - "+entry.getValue());
             }
         }
     }
-    
-    public void downloadDocumentStream(HttpServletRequest request, String fileName) throws URISyntaxException, IOException, GeneralSecurityException
-    {
-        List<Address> addressList = handler.downloadExcelFromCloud(fileName);
-        request.setAttribute("addressList", addressList);
-    }
-    
 
 }

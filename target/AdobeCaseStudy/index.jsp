@@ -1,19 +1,23 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<head>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Adobe Case Study</title>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <title>Excel Upload</title>
     </head>
  
     <body> 
-        <h1>Adobe Case Study</h1>
-        <div>
-            <h3> Choose File to Upload in Server </h3>
-            <form action="uploadFile" method="post" enctype="multipart/form-data">
-                <input type="file" name="file" />
-                <input type="submit" value="upload" />
-            </form>          
+        <div id="header"><div id="title"><b>Adobe</b> Case Study</div></div>
+        <div id="upload">
+            <div id="form">
+	            <h3 id="text"> Choose Excel File (xlsx) to Upload </h3>
+	            <form action="uploadFile" method="post" enctype="multipart/form-data">
+	                 <input type="file" name="file"/><br>
+	                <input type="submit" class="button" value="upload" />
+	            </form>
+            </div>          
         </div>
     </body>
 </html>

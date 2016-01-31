@@ -4,8 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
-import java.net.URISyntaxException;
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,22 +18,22 @@ import com.adobe.web.bean.Address;
 import com.adobe.web.bean.GoogleGeocodingResponse;
 import com.adobe.web.constants.ErrorMessages;
 import com.adobe.web.constants.ServiceConstants;
-import com.adobe.web.service.GeoCodingService;
+import com.adobe.web.service.GeocodingService;
 import com.adobe.web.service.GoogleCloudStorageService;
 
 public class FileUploadDownloadHandler {
     
     private GoogleCloudStorageService storageService;
-    private GeoCodingService geoService;
+    private GeocodingService geoService;
     
     public FileUploadDownloadHandler() {
         storageService = new GoogleCloudStorageService();
-        geoService = new GeoCodingService();
+        geoService = new GeocodingService();
     }
     
-    public void modifyAndUploadExcelToCloud(byte[] content, String fileName, Map<String, String> serviceErrorCodesMap) throws URISyntaxException, IOException, GeneralSecurityException, SocketTimeoutException
+    public void modifyAndUploadExcelToCloud(byte[] content, String fileName, Map<String, String> errorCodesMap) throws Exception
     {
-        GeoCodingService geoService = new GeoCodingService();
+        GeocodingService geoService = new GeocodingService();
         ByteArrayInputStream bInput = null;
         ByteArrayOutputStream bOut = null;
         XSSFWorkbook workbook = null;
@@ -65,18 +63,20 @@ public class FileUploadDownloadHandler {
                         break;
                     }
                 }
+                
+                // Call the Geocoding API. Execution should not stop even if any exception occurs with the API
                 GoogleGeocodingResponse result = null;
                 try {
                     result = geoService.getGeoAddress(address);
                 }
                 catch(SocketTimeoutException ste) {
-                    if(!serviceErrorCodesMap.containsKey(ErrorMessages.TIME_OUT_MSG_KEY))
-                        serviceErrorCodesMap.put(ErrorMessages.TIME_OUT_MSG_KEY, ErrorMessages.TIME_OUT_MSG_VALUE);
+                    addErrorMessage(errorCodesMap, ErrorMessages.GEO_CODE_TIME_OUT_MSG_KEY, ErrorMessages.GEO_CODE_TIME_OUT_MSG_VALUE);
                 }
                 catch(Exception e) {
-                    if(!serviceErrorCodesMap.containsKey(ErrorMessages.ERROR_MSG_KEY))
-                        serviceErrorCodesMap.put(ErrorMessages.ERROR_MSG_KEY, ErrorMessages.ERROR_MSG_VALUE);
+                    addErrorMessage(errorCodesMap, ErrorMessages.GEO_CODE_ERROR_MSG_KEY, ErrorMessages.GEO_CODE_ERROR_MSG_VALUE + " ("+e.getMessage()+")");
                 }
+                
+                
                 if(result != null && result.getStatus().equals(ServiceConstants.HTTP_STATUS_OK) && result.getResults() != null && result.getResults().length > 0) {
                     Cell cell = nextRow.createCell(6);
                     cell.setCellValue(result.getResults()[0].getFormatted_address());
@@ -107,17 +107,27 @@ public class FileUploadDownloadHandler {
                         cell.setCellValue(val);
                         cells[8] = cell;
                     }
-                    else {
-                        String errorCode = result.getStatus();
-                        String errorMessage = result.getError_message();
-                        if(!serviceErrorCodesMap.containsKey(errorCode))
-                            serviceErrorCodesMap.put(errorCode, errorMessage);
-                    }
+                    else
+                        addErrorMessage(errorCodesMap, result.getStatus(), result.getError_message());
                 }
             }
             bOut = new ByteArrayOutputStream();
             workbook.write(bOut);
-            storageService.uploadDocumentStream(bOut.toByteArray(), fileName);
+            
+            
+            // upload the document to public google cloud
+            try {
+                storageService.uploadDocumentStream(bOut.toByteArray(), fileName);  
+            }
+            catch(Exception e) {
+                addErrorMessage(errorCodesMap, ErrorMessages.EXCEL_UPLOAD_ERROR_MSG_KEY, ErrorMessages.EXCEL_UPLOAD_ERROR_MSG_KEY + " ("+e.getMessage()+")");
+                throw e;
+            }
+            
+        }
+        catch(IOException ioe) {
+            addErrorMessage(errorCodesMap, ErrorMessages.EXCEL_ERROR_MSG_KEY, ErrorMessages.EXCEL_ERROR_MSG_VALUE);
+            throw new Exception();
         }
         finally {
             if(null != bInput)
@@ -129,12 +139,16 @@ public class FileUploadDownloadHandler {
         }
     }
     
-    public List<Address> downloadExcelFromCloud(String fileName) throws URISyntaxException, IOException, GeneralSecurityException
+    
+    public List<Address> downloadExcelFromCloud(String fileName, Map<String, String> errorCodesMap) throws Exception
     {
         XSSFWorkbook workbook = null;
         List<Address> addressList = null;
         try {
+            
+            // download document from google cloud
             byte[] content = storageService.getFileFromGoogleCloud(fileName);
+            
             workbook = new XSSFWorkbook(new ByteArrayInputStream(content));
             
             addressList = new ArrayList<Address>();
@@ -168,12 +182,22 @@ public class FileUploadDownloadHandler {
                 addressList.add(address);
             }
         }
+        catch(Exception e) {
+            addErrorMessage(errorCodesMap, ErrorMessages.EXCEL_DOWNLOAD_ERROR_MSG_KEY, ErrorMessages.EXCEL_DOWNLOAD_ERROR_MSG_VALUE + " ("+e.getMessage()+")");
+            throw e;
+        }
         finally {
             if(null != workbook)
                 workbook.close();
         }
         
         return addressList;
+    }
+    
+    
+    public void addErrorMessage(Map<String, String> errorCodesMap, String key, String value) {
+        if(!errorCodesMap.containsKey(key))
+            errorCodesMap.put(key, value);
     }
     
     
