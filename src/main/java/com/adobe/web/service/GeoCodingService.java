@@ -7,19 +7,26 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.concurrent.TimeUnit;
 
 import com.adobe.web.bean.GoogleGeocodingResponse;
 import com.adobe.web.constants.ServiceConstants;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 public class GeoCodingService {
-
-    public GoogleGeocodingResponse getGeoAddress(String address) throws IOException
+    
+    private static int retryCount = 0;
+    public GoogleGeocodingResponse getGeoAddress(String address) throws IOException, InterruptedException
     {
         Gson gson = new Gson();
         String jsonResult = getGoogleVerifiedAddress(URLEncoder.encode(address, "UTF-8"));
         GoogleGeocodingResponse result = gson.fromJson(jsonResult, GoogleGeocodingResponse.class);
+        if(result.getStatus().equals(ServiceConstants.GEO_SERVICE_OVER_QUERY_LIMIT_STATUS) && retryCount < 2) {
+            retryCount ++;
+            TimeUnit.SECONDS.sleep(1);
+            getGeoAddress(address);
+        }
+        retryCount = 0;
         return result;
     }
 

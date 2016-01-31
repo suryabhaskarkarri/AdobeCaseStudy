@@ -20,8 +20,6 @@ import com.adobe.web.bean.GoogleGeocodingResponse;
 import com.adobe.web.constants.ServiceConstants;
 import com.adobe.web.service.GeoCodingService;
 import com.adobe.web.service.GoogleCloudStorageService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.services.storage.Storage;
 
 public class FileUploadDownloadHandler {
     
@@ -33,7 +31,7 @@ public class FileUploadDownloadHandler {
         geoService = new GeoCodingService();
     }
     
-    public void modifyAndUploadExcelToCloud(byte[] content, String fileName, Map<String, String> serviceErrorCodesMap) throws URISyntaxException, IOException, GeneralSecurityException
+    public void modifyAndUploadExcelToCloud(byte[] content, String fileName, Map<String, String> serviceErrorCodesMap) throws URISyntaxException, IOException, GeneralSecurityException, InterruptedException
     {
         GeoCodingService geoService = new GeoCodingService();
         ByteArrayInputStream bInput = null;
@@ -82,10 +80,28 @@ public class FileUploadDownloadHandler {
                     cells[8] = cell;
                 }
                 else {
-                    String errorCode = result.getStatus();
-                    String errorMessage = result.getError_message();
-                    if(!serviceErrorCodesMap.containsKey(errorCode))
-                        serviceErrorCodesMap.put(errorCode, errorMessage);
+                    if(result.getStatus().equals(ServiceConstants.NON_EXISTENT_ADDRESS_STATUS)) {
+                        
+                        String val = ServiceConstants.NON_EXISTENT_ADDRESS;
+                        
+                        Cell cell = nextRow.createCell(6);
+                        cell.setCellValue(val);
+                        cells[6] = cell;
+
+                        cell = nextRow.createCell(7);
+                        cell.setCellValue(val);
+                        cells[7] = cell;
+
+                        cell = nextRow.createCell(8);
+                        cell.setCellValue(val);
+                        cells[8] = cell;
+                    }
+                    else {
+                        String errorCode = result.getStatus();
+                        String errorMessage = result.getError_message();
+                        if(!serviceErrorCodesMap.containsKey(errorCode))
+                            serviceErrorCodesMap.put(errorCode, errorMessage);
+                    }
                 }
             }
             bOut = new ByteArrayOutputStream();

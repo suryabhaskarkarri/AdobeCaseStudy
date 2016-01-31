@@ -26,5 +26,11 @@ public class ServiceConstants {
     
     public static final String HTTP_STATUS_OK = "OK";
     
+    public static final String NON_EXISTENT_ADDRESS_STATUS = "ZERO_RESULTS";
+    
+    public static final String NON_EXISTENT_ADDRESS = "Non Existing Address";
+    
+    public static final long GEOCODING_REQUEST_PAUSE_TIME = 1000;  // 1 sec
+    
 
 }

@@ -1,11 +1,9 @@
 package com.adobe.web.servlet;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,27 +11,20 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.adobe.web.bean.Address;
 import com.adobe.web.constants.ErrorMessages;
 import com.adobe.web.constants.ServiceConstants;
 import com.adobe.web.handler.FileUploadDownloadHandler;
-import com.adobe.web.service.GoogleCloudStorageService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebServlet(urlPatterns = {"/uploadFile" }, name = "FileUploadServlet", asyncSupported = true, loadOnStartup = 1)
 public class FileUploadServlet extends HttpServlet {
@@ -116,7 +107,7 @@ public class FileUploadServlet extends HttpServlet {
     
     
     
-    public void uploadDocumentStream(byte[] content, String fileName) throws URISyntaxException, IOException, GeneralSecurityException
+    public void uploadDocumentStream(byte[] content, String fileName) throws URISyntaxException, IOException, GeneralSecurityException, InterruptedException
     {
         Map<String, String> serviceErrorCodesMap = new HashMap<String, String>();
         handler.modifyAndUploadExcelToCloud(content, fileName, serviceErrorCodesMap);
