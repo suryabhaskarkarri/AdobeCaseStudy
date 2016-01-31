@@ -4,10 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.concurrent.TimeUnit;
 
 import com.adobe.web.bean.GoogleGeocodingResponse;
 import com.adobe.web.constants.ServiceConstants;
@@ -15,22 +15,22 @@ import com.google.gson.Gson;
 
 public class GeoCodingService {
     
-    private static int retryCount = 0;
-    public GoogleGeocodingResponse getGeoAddress(String address) throws IOException, InterruptedException
+    private static volatile int requestCount = 0;
+    
+    public synchronized GoogleGeocodingResponse getGeoAddress(String address) throws IOException, InterruptedException, SocketTimeoutException
     {
+        if(requestCount > 9) {
+            Thread.sleep(ServiceConstants.GEOCODING_REQUEST_PAUSE_TIME);
+            requestCount = 0;
+        }
         Gson gson = new Gson();
         String jsonResult = getGoogleVerifiedAddress(URLEncoder.encode(address, "UTF-8"));
+        requestCount ++;
         GoogleGeocodingResponse result = gson.fromJson(jsonResult, GoogleGeocodingResponse.class);
-        if(result.getStatus().equals(ServiceConstants.GEO_SERVICE_OVER_QUERY_LIMIT_STATUS) && retryCount < 2) {
-            retryCount ++;
-            TimeUnit.SECONDS.sleep(1);
-            getGeoAddress(address);
-        }
-        retryCount = 0;
         return result;
     }
 
-    private String getGoogleVerifiedAddress(String address) throws MalformedURLException, IOException 
+    private String getGoogleVerifiedAddress(String address) throws MalformedURLException, IOException, SocketTimeoutException 
     {
         String jsonResult = "";
         BufferedReader reader = null;

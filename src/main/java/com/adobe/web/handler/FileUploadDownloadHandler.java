@@ -3,6 +3,7 @@ package com.adobe.web.handler;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.net.URISyntaxException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.adobe.web.bean.Address;
 import com.adobe.web.bean.GoogleGeocodingResponse;
+import com.adobe.web.constants.ErrorMessages;
 import com.adobe.web.constants.ServiceConstants;
 import com.adobe.web.service.GeoCodingService;
 import com.adobe.web.service.GoogleCloudStorageService;
@@ -31,7 +33,7 @@ public class FileUploadDownloadHandler {
         geoService = new GeoCodingService();
     }
     
-    public void modifyAndUploadExcelToCloud(byte[] content, String fileName, Map<String, String> serviceErrorCodesMap) throws URISyntaxException, IOException, GeneralSecurityException, InterruptedException
+    public void modifyAndUploadExcelToCloud(byte[] content, String fileName, Map<String, String> serviceErrorCodesMap) throws URISyntaxException, IOException, GeneralSecurityException, SocketTimeoutException
     {
         GeoCodingService geoService = new GeoCodingService();
         ByteArrayInputStream bInput = null;
@@ -63,9 +65,18 @@ public class FileUploadDownloadHandler {
                         break;
                     }
                 }
-                
-                GoogleGeocodingResponse result = geoService.getGeoAddress(address);
-                
+                GoogleGeocodingResponse result = null;
+                try {
+                    result = geoService.getGeoAddress(address);
+                }
+                catch(SocketTimeoutException ste) {
+                    if(!serviceErrorCodesMap.containsKey(ErrorMessages.TIME_OUT_MSG_KEY))
+                        serviceErrorCodesMap.put(ErrorMessages.TIME_OUT_MSG_KEY, ErrorMessages.TIME_OUT_MSG_VALUE);
+                }
+                catch(Exception e) {
+                    if(!serviceErrorCodesMap.containsKey(ErrorMessages.ERROR_MSG_KEY))
+                        serviceErrorCodesMap.put(ErrorMessages.ERROR_MSG_KEY, ErrorMessages.ERROR_MSG_VALUE);
+                }
                 if(result != null && result.getStatus().equals(ServiceConstants.HTTP_STATUS_OK) && result.getResults() != null && result.getResults().length > 0) {
                     Cell cell = nextRow.createCell(6);
                     cell.setCellValue(result.getResults()[0].getFormatted_address());

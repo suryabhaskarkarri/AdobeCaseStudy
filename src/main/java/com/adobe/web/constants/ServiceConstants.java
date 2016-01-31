@@ -30,7 +30,7 @@ public class ServiceConstants {
     
     public static final String NON_EXISTENT_ADDRESS = "Non Existing Address";
     
-    public static final long GEOCODING_REQUEST_PAUSE_TIME = 1000;  // 1 sec
+    public static final long GEOCODING_REQUEST_PAUSE_TIME = 2000;
     
 
 }
