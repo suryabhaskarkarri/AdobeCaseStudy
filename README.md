@@ -44,6 +44,6 @@ Google Cloud Storage Location:
 
 Files will be stored in my public cloud
 
-https://console.cloud.google.com/m/cloudstorage/b/adobecasestudy1/o/<file_name>
+https://console.cloud.google.com/m/cloudstorage/b/adobecasestudy1/o/_file_name_
 
 Ex: https://console.cloud.google.com/m/cloudstorage/b/adobecasestudy1/o/Addresses.xlsx
