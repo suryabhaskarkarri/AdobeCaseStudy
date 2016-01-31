@@ -3,11 +3,11 @@
 
 Technology Used:
 
-OAuth2 for Google Cloud Authentication
-Google Cloud Storage API
-Google Geocoding API
-Gson for converting Geocoding API response to Java object
-Apache POI for reading and writing excel documents.
+1. OAuth2 for Google Cloud Authentication
+2. Google Cloud Storage API
+3. Google Geocoding API
+4. Gson for converting Geocoding API response to Java object
+5. Apache POI for reading and writing excel documents.
 
 
 -------------------
