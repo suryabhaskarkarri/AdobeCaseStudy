@@ -3,11 +3,12 @@
 
 Technology Used:
 
-1. OAuth2 for Google Cloud Authentication
-2. Google Cloud Storage API
-3. Google Geocoding API
-4. Gson for converting Geocoding API response to Java object
-5. Apache POI for reading and writing excel documents.
+1. Java & J2EE (Servlets & JSP)
+2. Maven - for build
+3. OAuth2 for Google Cloud Authentication
+4. Google Cloud Storage API
+5. Google Geocoding API
+6. Apache POI for reading and writing excel documents.
 
 
 -------------------
@@ -15,9 +16,10 @@ Technology Used:
 
 Restrictions:
 
-1) Google Geocoding API is subject to a query limit of 2,500 geolocation requests per day and 10 requests per second. So please try with a simple excel sheet with less records
+1) Google Geocoding API is subject to a query limit of 2,500 geolocation requests per day and 10 requests per second. So It would be better to test the application with fewer records in excel sheet. Otherwise the Geocode API returns limit exceeded error. Also Because of the response time of Geocoding API, the application takes time to update the excel sheet with latitude and longitude
 
 2) The application only accepts xlsx files
+
 
 
 
