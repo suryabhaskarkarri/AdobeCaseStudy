@@ -31,7 +31,7 @@ public class GeocodingService {
         return result;
     }
 
-    private String getGoogleVerifiedAddress(String address) throws MalformedURLException, IOException, SocketTimeoutException 
+    private synchronized String getGoogleVerifiedAddress(String address) throws MalformedURLException, IOException, SocketTimeoutException 
     {
         String jsonResult = "";
         BufferedReader reader = null;
