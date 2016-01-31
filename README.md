@@ -7,6 +7,8 @@ http://adobecasestudy.appspot.com/
 
 You can access the application via google cloud store from the above link. Hopefully the application should be up and running. The app engine quotas will reset sometimes since it is a free app engine space. So if the application is not running, you can copy the code and run it in your own server.
 
+<b>Note:</b> Please upload excel sheet with fewer records because of the request time out & waiting time issues of Geocoding API call from this free app engine.
+However you can upload larger excel sheet and the application works perfectly if you deploy the code in your local server
 
 -------------------
 
@@ -16,7 +18,11 @@ Files will be stored in my public cloud
 
 https://console.cloud.google.com/m/cloudstorage/b/adobecasestudy1/o/YOUR_FILE_NAME
 
-Ex: https://console.cloud.google.com/m/cloudstorage/b/adobecasestudy1/o/Addresses.xlsx
+Below are the files in cloud which i used for tested and have the Google Verified Address
+
+https://console.cloud.google.com/m/cloudstorage/b/adobecasestudy1/o/Small_Excel_File.xlsx
+https://console.cloud.google.com/m/cloudstorage/b/adobecasestudy1/o/Large_Excel_File.xlsx
+
 
 
 -------------------
