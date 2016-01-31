@@ -4,6 +4,14 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+    <servlet-name>appEngineFileUpload</servlet-name>
+    <servlet-class>com.adobe.web.servlet.GoogleAppEngineFileUploadServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>appEngineFileUpload</servlet-name>
+    <url-pattern>/appEngineFileUpload</url-pattern>
+  </servlet-mapping>
   <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>

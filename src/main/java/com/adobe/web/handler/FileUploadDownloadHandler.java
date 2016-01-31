@@ -70,15 +70,15 @@ public class FileUploadDownloadHandler {
                 
                 if(result != null && result.getStatus().equals(ServiceConstants.HTTP_STATUS_OK) && result.getResults() != null && result.getResults().length > 0) {
                     Cell cell = nextRow.createCell(6);
-                    cell.setCellValue(result.getResults()[0].formatted_address);
+                    cell.setCellValue(result.getResults()[0].getFormatted_address());
                     cells[6] = cell;
 
                     cell = nextRow.createCell(7);
-                    cell.setCellValue(result.getResults()[0].geometry.location.lat);
+                    cell.setCellValue(result.getResults()[0].getGeometry().getLocation().getLat());
                     cells[7] = cell;
 
                     cell = nextRow.createCell(8);
-                    cell.setCellValue(result.getResults()[0].geometry.location.lng);
+                    cell.setCellValue(result.getResults()[0].getGeometry().getLocation().getLng());
                     cells[8] = cell;
                 }
                 else {

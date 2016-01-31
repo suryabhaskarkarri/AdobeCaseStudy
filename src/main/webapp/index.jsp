@@ -23,9 +23,4 @@
             </div>          
         </div>
     </body>
-    <script>
-	    document.getElementById("fileInput").onchange = function () {
-	        document.getElementById("filename").innerHTML = this.value;
-	    };
-    </script>
 </html>
