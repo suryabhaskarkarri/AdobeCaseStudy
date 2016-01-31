@@ -11,6 +11,7 @@ Technology Used:
 6. Apache POI for reading and writing excel documents.
 
 
+
 -------------------
 
 
@@ -23,6 +24,8 @@ Restrictions:
 
 
 
+
+
 -------------------
 
 Assumptions:
@@ -30,3 +33,17 @@ Assumptions:
 1) The columns in the excel sheet and their positions are fixed and will not change.
 
 
+
+
+
+
+
+-------------------
+
+Google Cloud Storage Location:
+
+Files will be stored in my public cloud
+
+https://console.cloud.google.com/m/cloudstorage/b/adobecasestudy1/o/<file_name>
+
+Ex: https://console.cloud.google.com/m/cloudstorage/b/adobecasestudy1/o/Addresses.xlsx
