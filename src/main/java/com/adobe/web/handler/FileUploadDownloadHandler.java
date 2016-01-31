@@ -16,7 +16,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.adobe.web.bean.Address;
-import com.adobe.web.bean.GoogleGeoCodeResponse;
+import com.adobe.web.bean.GoogleGeocodingResponse;
 import com.adobe.web.constants.ServiceConstants;
 import com.adobe.web.service.GeoCodingService;
 import com.adobe.web.service.GoogleCloudStorageService;
@@ -66,19 +66,19 @@ public class FileUploadDownloadHandler {
                     }
                 }
                 
-                GoogleGeoCodeResponse result = geoService.getGeoAddress(address);
+                GoogleGeocodingResponse result = geoService.getGeoAddress(address);
                 
                 if(result != null && result.getStatus().equals(ServiceConstants.HTTP_STATUS_OK) && result.getResults() != null && result.getResults().length > 0) {
                     Cell cell = nextRow.createCell(6);
-                    cell.setCellValue(result.getResults()[0].getFormatted_address());
+                    cell.setCellValue(result.getResults()[0].formattedAddress);
                     cells[6] = cell;
 
                     cell = nextRow.createCell(7);
-                    cell.setCellValue(result.getResults()[0].getGeometry().getLocation().getLat());
+                    cell.setCellValue(result.getResults()[0].geometry.location.lat);
                     cells[7] = cell;
 
                     cell = nextRow.createCell(8);
-                    cell.setCellValue(result.getResults()[0].getGeometry().getLocation().getLng());
+                    cell.setCellValue(result.getResults()[0].geometry.location.lng);
                     cells[8] = cell;
                 }
                 else {

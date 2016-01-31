@@ -16,7 +16,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.adobe.web.bean.GoogleGeoCodeResponse;
+import com.adobe.web.bean.GoogleGeocodingResponse;
 import com.adobe.web.constants.ServiceConstants;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;

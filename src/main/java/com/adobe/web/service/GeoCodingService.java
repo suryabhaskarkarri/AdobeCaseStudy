@@ -8,17 +8,18 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
-import com.adobe.web.bean.GoogleGeoCodeResponse;
+import com.adobe.web.bean.GoogleGeocodingResponse;
 import com.adobe.web.constants.ServiceConstants;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 public class GeoCodingService {
 
-    public GoogleGeoCodeResponse getGeoAddress(String address) throws IOException
+    public GoogleGeocodingResponse getGeoAddress(String address) throws IOException
     {
         Gson gson = new Gson();
         String jsonResult = getGoogleVerifiedAddress(URLEncoder.encode(address, "UTF-8"));
-        GoogleGeoCodeResponse result = gson.fromJson(jsonResult, GoogleGeoCodeResponse.class);
+        GoogleGeocodingResponse result = gson.fromJson(jsonResult, GoogleGeocodingResponse.class);
         return result;
     }
 
