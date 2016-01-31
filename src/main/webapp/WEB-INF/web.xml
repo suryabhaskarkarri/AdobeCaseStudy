@@ -10,7 +10,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>uploadFile</servlet-name>
-    <url-pattern>/uploadFil</url-pattern>
+    <url-pattern>/uploadFile</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>

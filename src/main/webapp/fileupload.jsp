@@ -13,10 +13,14 @@
 	   <div id="header"><div id="title"><b>Adobe&nbsp;</b>Case Study</div></div><br>
 	    <center>
 	        <br/>
-	        <h2 style="color:green"> ${requestScope.message}</h2>
+	        <h2 style="color:green"> ${requestScope.message}</h2> 
+	        <br> 
+	        <c:if test="${requestScope.filePath != null}">
+	           <a href="${requestScope.filePath}">Download from cloud</a>
+	        </c:if>
 	    </center>
 	    <c:if test="${requestScope.errorMessages != null && not empty requestScope.errorMessages}">
-	            <br><br><div style="color: red"><h3>Error Messages</h3>
+	            <br><div style="color: red"><h3>Error Messages</h3>
 	            <ul>
 	                <c:forEach items="${requestScope.errorMessages}" var="element"> 
 	                      <li>${element}</li>

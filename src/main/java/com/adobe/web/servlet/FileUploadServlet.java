@@ -27,7 +27,6 @@ import com.adobe.web.constants.ErrorMessages;
 import com.adobe.web.constants.ServiceConstants;
 import com.adobe.web.handler.FileUploadDownloadHandler;
 
-@WebServlet(urlPatterns = {"/uploadFile" }, name = "FileUploadServlet", asyncSupported = true, loadOnStartup = 1)
 public class FileUploadServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -49,10 +48,11 @@ public class FileUploadServlet extends HttpServlet {
                 if(iterator.hasNext()) {
                     FileItemStream item = iterator.next();
                     if(validateFile(item)) {
-                        InputStream stream = item.openStream();
-                        uploadDocumentStream(getBytes(stream), item.getName());
-                        downloadDocumentStream(request, item.getName());
-                        request.setAttribute("message", "File Uploaded Successfully");
+                        //InputStream stream = item.openStream();
+                        //uploadDocumentStream(getBytes(stream), item.getName());
+                        //downloadDocumentStream(request, item.getName());
+                        request.setAttribute("message", "File Uploaded Successfully"); 
+                        request.setAttribute("filePath", ServiceConstants.CLOUD_STORAGE_PATH+item.getName());
                     }
                 }
                 else 

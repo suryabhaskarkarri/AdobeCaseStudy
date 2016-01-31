@@ -47,7 +47,6 @@ public class GoogleCloudStorageService {
             while ((count = in.read(data, 0, 1024)) != -1) {
                 bOut.write(data, 0, count);
             }
-            bOut.flush();
             content = bOut.toByteArray();
         }
         finally {

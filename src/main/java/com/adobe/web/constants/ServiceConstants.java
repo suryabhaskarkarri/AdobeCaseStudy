@@ -32,5 +32,7 @@ public class ServiceConstants {
     
     public static final long GEOCODING_REQUEST_PAUSE_TIME = 2000;
     
+    public static final String CLOUD_STORAGE_PATH = "https://console.cloud.google.com/m/cloudstorage/b/adobecasestudy1/o/";
+    
 
 }
