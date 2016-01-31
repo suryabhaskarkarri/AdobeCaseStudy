@@ -58,18 +58,12 @@ public class FileUploadServlet extends HttpServlet {
                     errorMessages.add(ErrorMessages.INVALID_FILE);
             }
             catch(IOException e) {
-                System.out.println(e.getMessage());
-                e.printStackTrace();
-                    errorMessages.add(ErrorMessages.FILE_UPLOAD_EXCEPTION_MSG);
+                errorMessages.add(ErrorMessages.FILE_UPLOAD_EXCEPTION_MSG);
             }
             catch(FileUploadException fue) {
-                System.out.println(fue.getMessage());
-                fue.printStackTrace();
                 errorMessages.add(ErrorMessages.FILE_UPLOAD_EXCEPTION_MSG);
             }
             catch(Exception e) {
-                System.out.println(e.getMessage());
-                e.printStackTrace();
                 //Do nothing. Already handled the error messages in the handler
             }
         }
