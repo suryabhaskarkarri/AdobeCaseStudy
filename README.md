@@ -18,7 +18,7 @@ Files will be stored in my public cloud
 
 https://console.cloud.google.com/m/cloudstorage/b/adobecasestudy1/o/YOUR_FILE_NAME
 
-Below are the files in cloud which i used for tested and have the Google Verified Address
+Below are the files in cloud which i used for testing and have the Google Verified Address
 
 https://console.cloud.google.com/m/cloudstorage/b/adobecasestudy1/o/Small_Excel_File.xlsx
 https://console.cloud.google.com/m/cloudstorage/b/adobecasestudy1/o/Large_Excel_File.xlsx
