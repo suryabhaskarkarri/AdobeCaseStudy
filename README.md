@@ -7,9 +7,9 @@ http://adobecasestudy.appspot.com/
 
 You can access the application via google cloud store from the above link. Hopefully the application should be up and running. The app engine quotas will reset sometimes since it is a free app engine space. So if the application is not running, you can copy the code and run it in your own server.
 
-<b>Note:</b> <u style="text-decoration: underline;">Please upload excel sheet with 10 or fewer records for successful response, because the free version of Geocoding API accepts only 10 requests per second</u>. Otherwise the application still works but only some records will be updated with the google verified address.<br>
+<b>Note:</b> <span style="text-decoration: underline;">Please upload excel sheet with 10 or fewer records for successful response, because the free version of Geocoding API accepts only 10 requests per second.</span> Otherwise the application still works but only some records will be updated with the google verified address.<br/>
 Since the application is deployed in free google app engine, it results in poor performance because of the file upload process and wait time issues of Geocoding API call from this free app engine.<br>
-However you can upload larger excel sheet and the application works perfectly if you deploy the code in your local server
+However you can upload larger excel sheet and the application responds efficiently and perfectly if you deploy the code in your local server
 <br><br><br>
 
 
