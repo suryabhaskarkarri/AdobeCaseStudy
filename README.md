@@ -39,7 +39,7 @@ https://console.cloud.google.com/m/cloudstorage/b/adobecasestudy1/o/Large_Excel_
 
 2) The application only accepts xlsx files
 
-<br><br>
+<br>
 
 -------------------
 
@@ -54,7 +54,7 @@ https://console.cloud.google.com/m/cloudstorage/b/adobecasestudy1/o/Large_Excel_
 
 
 
-<br><br>
+<br>
 
 
 -------------------
