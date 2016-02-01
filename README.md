@@ -39,6 +39,8 @@ https://console.cloud.google.com/m/cloudstorage/b/adobecasestudy1/o/Large_Excel_
 
 2) The application only accepts xlsx files
 
+3) You can download the updated excel sheet from google cloud only if you login to your gmail account
+
 <br>
 
 -------------------
